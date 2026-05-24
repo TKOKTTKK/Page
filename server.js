@@ -28,7 +28,7 @@ const API_KEY = process.env.JSONBIN_API_KEY;
 
 // ── 拉黑列表使用独立的 JSONBin Bin（在 Render 环境变量中配置）
 // 环境变量：BAN_BIN_ID = 拉黑专用 Bin ID（可以与担保交易共用同一 API_KEY）
-// 如果没有 BAN_BIN_ID，则降级为内存存储（重启后丢失）
+// 如果没有 BAN_BIN_ID，则降级为内存存储（重启后丢）
 const BAN_BIN_ID = process.env.BAN_BIN_ID;
 
 let escrowCache = null;
