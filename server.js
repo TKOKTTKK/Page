@@ -21,7 +21,7 @@ app.get("/", (req, res) =>
 );
 
 // ═══════════════════════════════════════════════════════════
-//  担保交易 API — 使用 JSONBin.io 持久化（原有逻辑不变）
+//  担保交易 API — 使用 JSONBin.io 持久化（原有的逻辑不变）
 // ═══════════════════════════════════════════════════════════
 const BIN_ID  = process.env.JSONBIN_BIN_ID;
 const API_KEY = process.env.JSONBIN_API_KEY;
