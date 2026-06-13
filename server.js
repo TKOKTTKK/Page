@@ -36,7 +36,7 @@ let escrowCache = null;
 let banCache = null;
 
 // ─────────────────────────────────────────────────────────
-//  通用 JSONBin 读写工具（复用原有风格）
+//  通用 JSONBin 读工具（复用原有风格）
 // ─────────────────────────────────────────────────────────
 async function jsonbinGet() {
   if (escrowCache) return escrowCache;
