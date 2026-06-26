@@ -5,7 +5,7 @@ const https = require("https");
 
 const app = express();
 
-// ── CORS & JSON 解析 ──────────────────────────────────────
+// ── CORS & JSON 解1析 ──────────────────────────────────────
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,OPTIONS");
