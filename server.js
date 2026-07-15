@@ -184,6 +184,15 @@ function attachWebSocket(server) {
       try {
         const data = JSON.parse(raw);
 
+        // ── 应用层心跳：客户端发 ping，立即回 pong ─────────────
+        // 用于客户端（尤其 iOS Safari 后台冻结后）主动探测连接是否
+        // 已经失效；不写入 history，不广播，只回给发送者本人。
+        if (data.type === "ping") {
+          ws.send(JSON.stringify({ type: "pong" }));
+          return;
+        }
+        // ── 心跳处理结束 ─────────────────────────────────────
+
         // ── 拉黑验证：仅对非管理员消息进行后端校验 ──────────
         if (data.from !== "admin") {
           // visitorId 由前端 FingerprintJS 生成，附在每条消息中
