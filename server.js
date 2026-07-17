@@ -15,6 +15,22 @@ const ADMIN_URL = "https://ml-theta-three.vercel.app/admin.html";
 let history = [];
 const knownUsers = new Set();
 
+// ── 消息历史内存上限（超过后最老的消息会被丢弃）────────────
+// 注意：history 只存在内存里，服务进程重启（休眠唤醒/重新部署/崩溃）
+// 会导致历史记录清零，这个上限只控制"不重启情况下"最多保留多少条。
+const HISTORY_LIMIT = 300;
+
+// ── 统一生成北京时间字符串，避免服务器容器时区（通常是 UTC）
+//    导致时间显示偏差 ──────────────────────────────────────
+function beijingTimeString() {
+  return new Date().toLocaleTimeString('zh-CN', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    timeZone: 'Asia/Shanghai'
+  });
+}
+
 // ─────────────────────────────────────────────────────────
 //  拉黑列表专用 JSONBin 读写（独立 Bin）
 //  若未配置 BAN_BIN_ID，则使用内存 Map（重启丢失，仅开发用）
@@ -217,12 +233,12 @@ function attachWebSocket(server) {
           type:       data.type || "text",
           location:   data.location || null,
           visitorId:  data.visitorId || null, // ── 新增：透传指纹 ID
-          time:       new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+          time:       beijingTimeString(),
           id:         "msg_" + Date.now() + Math.random().toString(36).substr(2, 4)
         };
 
         history.push(packet);
-        if (history.length > 100) history.shift();
+        if (history.length > HISTORY_LIMIT) history.shift();
         console.log(`[转发] ${packet.from} -> ${packet.to} (${packet.type})${packet.location ? ' 📍' + packet.location : ''}${packet.visitorId ? ' 🔑' + packet.visitorId.substring(0,8) : ''}`);
 
         if (packet.from !== "admin" && !knownUsers.has(packet.from)) {
@@ -232,11 +248,11 @@ function attachWebSocket(server) {
               from: "admin", to: packet.from,
               text: "稍等", type: "text",
               location: null,
-              time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+              time: beijingTimeString(),
               id: "auto_" + Date.now()
             };
             history.push(autoReply);
-            if (history.length > 100) history.shift();
+            if (history.length > HISTORY_LIMIT) history.shift();
             wss.clients.forEach((c) => {
               if (c.readyState === WebSocket.OPEN)
                 c.send(JSON.stringify({ type: "new", data: autoReply }));
