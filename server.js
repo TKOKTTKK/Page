@@ -334,7 +334,7 @@ const wss = new WebSocket.Server({
 });
 
 const BARK_KEY  = process.env.BARK_KEY || "a7TwmrfWu7jK2ASRxkiXDB";
-const ADMIN_URL = "https://page-production-49f9.up.railway.app";
+const ADMIN_URL = "https://page-c4hm.onrender.com";
 let history = [];
 const knownUsers = new Set();
 
