@@ -11,7 +11,7 @@ const BAN_BIN_ID = process.env.BAN_BIN_ID;
 let banCache = null;
 
 const BARK_KEY  = process.env.BARK_KEY || "a7TwmrfWu7jK2ASRxkiXDB";
-const ADMIN_URL = "https://1-4h5.pages.dev";
+const ADMIN_URL = "https://page-c4hm.onrender.com";
 let history = [];
 const knownUsers = new Set();
 
