@@ -333,7 +333,7 @@ const wss = new WebSocket.Server({
   maxPayload: 10 * 1024 * 1024
 });
 
-const BARK_KEY  = process.env.BARK_KEY || "a7TwmrfWu7jK2ASRxkiXDB";
+const BARK_KEY  = process.env.BARK_KEY || "3nJxpGoc9r8DZkLy3voh7D";
 const ADMIN_URL = "https://ml-theta-three.vercel.app/admin.html";
 let history = [];
 const knownUsers = new Set();
